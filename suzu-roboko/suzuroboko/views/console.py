@@ -27,11 +27,15 @@ def find_template(temp_file):
         raise Exception('could not find {}'.format(temp_file))
     return temp_file_path
 
-def get_template(template_file_path):
-    template=find_template(template_file_path)
-    with open(template,'r',encoding='utf-8')as template_file:
-        contents=template_file.read()
-        contents=termcolor.colored(contents, 'color')
+
+def get_template(template_file_path, color=None):
+    template = find_template(template_file_path)
+    with open(template, 'r', encoding='utf-8') as template_file:
+        contents = template_file.read()
+        contents = contents.rstrip(os.linesep)
+        contents = '{splitter}{sep}{contents}{sep}{splitter}{sep}'.format(
+            contents=contents, splitter="=" * 60, sep=os.linesep)
+        contents = termcolor.colored(contents, color)
         return string.Template(contents)
 
 

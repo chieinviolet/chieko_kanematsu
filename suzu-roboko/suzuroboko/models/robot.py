@@ -1,8 +1,9 @@
-from ..models import ranking
-from ..views import console
+from suzuroboko.models import ranking
+from suzuroboko.views import console
 
 DEFAULT_ROBOT_NAME='Suzu-roboko'
-class Robot(object)  :
+
+class Robot(object):
     def __init__(self,name=DEFAULT_ROBOT_NAME,user_name='',
                  speak_color='red'):
         self.name=name
@@ -11,7 +12,7 @@ class Robot(object)  :
 
     def hello(self):
         while True:
-            template=console.get_template('hello.txt',self.speak_color)
+            template = console.get_template('hello.txt',self.speak_color)
             user_name=input(template.substitute({
                 'robot_name':self.name}))
             if user_name:
@@ -24,11 +25,10 @@ class RestaurantRobot(Robot):
         super().__init__(name)
         self.ranking_model=ranking.RankingModel()
 
-    def _hello_decorator(self,func):
+    def _hello_decorator(self):
         def wrapper(self):
             if not self.user_name:
                 self.hello()
-            return func(self)
         return wrapper
 
     @_hello_decorator
